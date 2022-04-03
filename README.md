@@ -41,15 +41,15 @@ For IAM roles, Access Analyzer analyzes trust policies. In a role trust policy, 
 
 For AWS KMS keys, Access Analyzer analyzes the key policies and grants applied to a key. Access Analyzer generates a finding if a key policy or grant allows an external entity to access the key. For example, if you use the kms:CallerAccount condition key in a policy statement to allow access to all users in a specific AWS account, and you specify an account other than the current account (the zone of trust for the current analyzer), Access Analyzer generates a finding. When Access Analyzer analyzes a KMS key it reads key metadata, such as the key policy and list of grants. If the key policy doesn't allow the Access Analyzer role to read the key metadata, an Access Denied error finding is generated. For example, if the following example policy statement is the only policy applied to a key, it results in an Access Denied error finding in Access Analyzer:
 
-> {
->  "Sid": "Allow access for Key Administrators",
->  "Effect": "Allow",
->  "Principal": {
->  "AWS": "arn:aws:iam::111122223333:role/Admin"
->  },
->  "Action": "kms:*",
->  "Resource": "*"
-> }
+> {  
+>  "Sid": "Allow access for Key Administrators",  
+>  "Effect": "Allow",  
+>  "Principal": {  
+>  "AWS": "arn:aws:iam::111122223333:role/Admin"  
+>  },  
+>  "Action": "kms:*",  
+>  "Resource": "*"  
+> }  
 
 Because this statement allows only the role named Admin from the AWS account 111122223333 to access the key, an Access Denied error finding is generated because Access Analyzer isn't able to fully analyze the key. An error finding is displayed in red text in the Findings table. The finding looks similar to the following:
 
