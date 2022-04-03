@@ -53,31 +53,31 @@ For AWS KMS keys, Access Analyzer analyzes the key policies and grants applied t
 
 Because this statement allows only the role named Admin from the AWS account 111122223333 to access the key, an Access Denied error finding is generated because Access Analyzer isn't able to fully analyze the key. An error finding is displayed in red text in the Findings table. The finding looks similar to the following:
 
-> {
->  "error": "ACCESS_DENIED",
->  "id": "12345678-1234-abcd-dcba-111122223333",
->  "analyzedAt": "2019-09-16T14:24:33.352Z",
->  "resource": "arn:aws:kms:uswest-2:1234567890:key/1a2b3c4d-5e6f-7a8b-9c0d-1a2b3c4d5e6f7g8a",
->  "resourceType": "AWS::KMS::Key",
->  "status": "ACTIVE",
->  "updatedAt": "2019-09-16T14:24:33.352Z"
-> }
+> {  
+>  "error": "ACCESS_DENIED",  
+>  "id": "12345678-1234-abcd-dcba-111122223333",  
+>  "analyzedAt": "2019-09-16T14:24:33.352Z",  
+>  "resource": "arn:aws:kms:uswest-2:1234567890:key/1a2b3c4d-5e6f-7a8b-9c0d-1a2b3c4d5e6f7g8a",  
+>  "resourceType": "AWS::KMS::Key",  
+>  "status": "ACTIVE",  
+>  "updatedAt": "2019-09-16T14:24:33.352Z"  
+> }  
 
 When you create a KMS key, the permissions granted to access the key depend on how you create the key. If you receive an Access Denied error finding for a key resource, apply the following policy statement to the key resource to grant Access Analyzer permission to access the key.
 
-> {
->  "Sid": "Allow Access Analyzer access to key metadata",
->  "Effect": "Allow",
->  "Principal": {
->  "AWS": "arn:aws:iam::111122223333:role/aws-service-role/accessanalyzer.amazonaws.com/AWSServiceRoleForAccessAnalyzer"
->  },
->  "Action": [
->  "kms:DescribeKey",
->  "kms:GetKeyPolicy",
->  "kms:List*"
->  ],
->  "Resource": "*"
-> }
+> {  
+>  "Sid": "Allow Access Analyzer access to key metadata",  
+>  "Effect": "Allow",  
+>  "Principal": {  
+>  "AWS": "arn:aws:iam::111122223333:role/aws-service-role/accessanalyzer.amazonaws.com/AWSServiceRoleForAccessAnalyzer"  
+>  },  
+>  "Action": [  
+>  "kms:DescribeKey",  
+>  "kms:GetKeyPolicy",  
+>  "kms:List*"  
+>  ],  
+>  "Resource": "*"  
+> }  
 
 After you receive an Access Denied finding for a KMS key resource, and then resolve the finding by updating the key policy, the finding is updated to a status of Resolved. If there are policy statements or key grants that grant permission to the key to an external entity, you might see additional findings for the key resource.  
 
